@@ -13,6 +13,46 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Math Invaders")
 font = pygame.font.Font('font.ttf', 20)
 
+title_font = pygame.font.Font('font.ttf', 64)
+button_font = pygame.font.Font('font.ttf', 32)
+
+def title_screen():
+    title_text = title_font.render("Math Invaders", True, (255, 255, 255))
+    play_button_text = button_font.render("Play", True, (255, 255, 255))
+    quit_button_text = button_font.render("Quit", True, (255, 255, 255))
+
+    screen.blit(title_text, (150, 200))
+    pygame.draw.rect(screen, (0, 128, 255), (300, 350, 200, 50))
+    pygame.draw.rect(screen, (0, 128, 255), (300, 420, 200, 50))
+    screen.blit(play_button_text, (350, 360))
+    screen.blit(quit_button_text, (360, 430))
+
+def show_title_screen():
+    title_screen()
+
+    pygame.display.update()
+
+    waiting_for_input = True
+    while waiting_for_input:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+
+                # Check if the Play button is clicked
+                if 300 <= mouse_x <= 500 and 350 <= mouse_y <= 400:
+                    waiting_for_input = False
+
+                # Check if the Quit button is clicked
+                elif 300 <= mouse_x <= 500 and 420 <= mouse_y <= 470:
+                    pygame.quit()
+                    quit()
+
+        pygame.time.Clock().tick(30)
+
 # Score
 score_val = 0
 bullet_count = 10
@@ -28,97 +68,27 @@ equations = [
     (sp.Eq(5 * x + 2, 27), [5]),
     (sp.Eq(3 * (x - 4), 15), [9]),
     (sp.Eq(6 + 2 * x, 14), [4]),
-    (sp.Eq(4 * (x + 2) - 3, 29), [7]),
+    (sp.Eq(4 * (x + 2) - 3, 29), [6]),
     (sp.Eq(2 * x - 5, 15), [10]),
-    (sp.Eq(8 - 3 * (x + 1), 5), [-2]),
-    (sp.Eq(7 + 2 * (x - 3), 15), [8]),
+    (sp.Eq(7 + 2 * (x - 3), 15), [7]),
     (sp.Eq(9 * x + 5, 41), [4]),
     (sp.Eq(-3 * x + 2, -10), [4]),
     (sp.Eq(2 * (x + 4) + 3, 17), [3]),
-    (sp.Eq(5 * (x - 1) - 2, 18), [4]),
+    (sp.Eq(5 * (x - 1) - 2, 18), [5]),
     (sp.Eq(6 - 4 * x, -10), [4]),
-    (sp.Eq(3 * (x + 5) - 2 * (x - 2), 19), [6]),
     (sp.Eq(2 * x - 3, x + 5), [8]),
-    (sp.Eq(4 * (x - 2) + 5 * (x + 1), 33), [3]),
-    (sp.Eq(3 * (x + 4) + 2 * (x - 2), 29), [5]),
-    (sp.Eq(5 * x - 3 * (x + 2), -7), [-2]),
     (sp.Eq(2 * x + 1, x + 4), [3]),
     (sp.Eq(3 * x + 2, 8), [2]),
-    (sp.Eq(4 * (x + 1) + 3, 15), [3]),
+    (sp.Eq(4 * (x + 1) + 3, 15), [2]),
     (sp.Eq(5 * (x - 2) - 4, 6), [4]),
     (sp.Eq(2 * x - 3 * (x + 4), -17), [5]),
-    (sp.Eq(6 * (x - 1) + 2 * (x + 3), 40), [5]),
-    (sp.Eq(9 - 2 * (x + 1), 4), [2]),
-    (sp.Eq(3 * (x + 2) - 4 * (x - 1), -5), [5]),
+    (sp.Eq(9 - 2 * (x + 1), 3), [2]),
     (sp.Eq(7 - 3 * x, 16), [-3]),
-    (sp.Eq(2 * (x - 3) + 5 * (x + 2), 38), [3]),
     (sp.Eq(4 * x + 1, 9), [2]),
-    (sp.Eq(5 * (x + 2) - 3 * (x - 1), 14), [4]),
-    (sp.Eq(3 * (x - 2) + 4, 7), [2]),
+    (sp.Eq(3 * (x - 1) + 4, 7), [2]),
     (sp.Eq(8 - 2 * x, 6), [1]),
-    (sp.Eq(3 * (x + 1) + 2 * (x - 3), 13), [4]),
-    (sp.Eq(6 * (x - 2) - 4 * (x + 3), -26), [4]),
     (sp.Eq(4 * x - 5, 11), [4]),
     (sp.Eq(9 - 3 * (x - 4), 0), [7]),
-    (sp.Eq(2 * (x + 2) + 3, 13), [3]),
-    (sp.Eq(5 * x + 4, 24), [4]),
-    (sp.Eq(6 - 4 * (x + 1), 10), [-1]),
-    (sp.Eq(4 * x + 2, 18), [4]),
-    (sp.Eq(2 * (x + 3), 14), [4]),
-    (sp.Eq(5 * x + 2, 27), [5]),
-    (sp.Eq(3 * (x - 4), 15), [9]),
-    (sp.Eq(6 + 2 * x, 14), [4]),
-    (sp.Eq(4 * (x + 2) - 3, 29), [7]),
-    (sp.Eq(2 * x - 5, 15), [10]),
-    (sp.Eq(8 - 3 * (x + 1), 5), [-2]),
-    (sp.Eq(7 + 2 * (x - 3), 15), [8]),
-    (sp.Eq(9 * x + 5, 41), [4]),
-    (sp.Eq(-3 * x + 2, -10), [4]),
-    (sp.Eq(2 * (x + 4) + 3, 17), [3]),
-    (sp.Eq(5 * (x - 1) - 2, 18), [4]),
-    (sp.Eq(6 - 4 * x, -10), [4]),
-    (sp.Eq(3 * (x + 5) - 2 * (x - 2), 19), [6]),
-    (sp.Eq(2 * x - 3, x + 5), [8]),
-    (sp.Eq(4 * (x - 2) + 5 * (x + 1), 33), [3]),
-    (sp.Eq(3 * (x + 4) + 2 * (x - 2), 29), [5]),
-    (sp.Eq(5 * x - 3 * (x + 2), -7), [-2]),
-    (sp.Eq(2 * x + 1, x + 4), [3]),
-    (sp.Eq(6 * (x - 1) + 2 * (x + 3), 40), [5]),
-    (sp.Eq(9 - 2 * (x + 1), 4), [2]),
-    (sp.Eq(3 * (x + 2) - 4 * (x - 1), -5), [5]),
-    (sp.Eq(7 - 3 * x, 16), [-3]),
-    (sp.Eq(2 * (x - 3) + 5 * (x + 2), 38), [3]),
-    (sp.Eq(4 * x + 1, 9), [2]),
-    (sp.Eq(5 * (x + 2) - 3 * (x - 1), 14), [4]),
-    (sp.Eq(3 * (x - 2) + 4, 7), [2]),
-    (sp.Eq(8 - 2 * x, 6), [1]),
-    (sp.Eq(3 * (x + 1) + 2 * (x - 3), 13), [4]),
-    (sp.Eq(6 * (x - 2) - 4 * (x + 3), -26), [4]),
-    (sp.Eq(4 * x - 5, 11), [4]),
-    (sp.Eq(9 - 3 * (x - 4), 0), [7]),
-    (sp.Eq(2 * (x + 2) + 3, 13), [3]),
-    (sp.Eq(5 * x + 4, 24), [4]),
-    (sp.Eq(6 - 4 * (x + 1), 10), [-1]),
-    (sp.Eq(4 * x + 2, 18), [4]),
-    (sp.Eq(2 * (x + 3), 14), [4]),
-    (sp.Eq(5 * x + 2, 27), [5]),
-    (sp.Eq(3 * (x - 4), 15), [9]),
-    (sp.Eq(6 + 2 * x, 14), [4]),
-    (sp.Eq(4 * (x + 2) - 3, 29), [7]),
-    (sp.Eq(2 * x - 5, 15), [10]),
-    (sp.Eq(8 - 3 * (x + 1), 5), [-2]),
-    (sp.Eq(7 + 2 * (x - 3), 15), [8]),
-    (sp.Eq(9 * x + 5, 41), [4]),
-    (sp.Eq(-3 * x + 2, -10), [4]),
-    (sp.Eq(2 * (x + 4) + 3, 17), [3]),
-    (sp.Eq(5 * (x - 1) - 2, 18), [4]),
-    (sp.Eq(6 - 4 * x, -10), [4]),
-    (sp.Eq(3 * (x + 5) - 2 * (x - 2), 19), [6]),
-    (sp.Eq(2 * x - 3, x + 5), [8]),
-    (sp.Eq(4 * (x - 2) + 5 * (x + 1), 33), [3]),
-    (sp.Eq(3 * (x + 4) + 2 * (x - 2), 29), [5]),
-    (sp.Eq(5 * x - 3 * (x + 2), -7), [-2]),
-    (sp.Eq(2 * x + 1, x + 4), [3])
 ]
 
 def show_score(x, y, bx, by):
@@ -159,7 +129,7 @@ for num in range(no_of_invaders):
     invaderImage.append(pygame.image.load('alien.png'))
     invader_X.append(random.randint(64, 737))
     invader_Y.append(random.randint(30, 180))
-    invader_Xchange.append(0.2)
+    invader_Xchange.append(0.6)
     invader_Ychange.append(50)
 
 # pew pew
@@ -167,7 +137,7 @@ bulletImage = pygame.image.load('bullet.png')
 bullet_X = 0
 bullet_Y = 500
 bullet_Xchange = 0
-bullet_Ychange = 1
+bullet_Ychange = 5
 bullet_state = "rest"
 
 
@@ -231,7 +201,8 @@ input_box = InputBox(100, 550, 140, 32)
 
 # Choose the first equation outside the game loop
 equation, correct_answers = random.choice(equations)
-
+show_title_screen()
+pygame.init()
 running = True
 while running:
     screen.fill((0, 0, 0))
@@ -299,6 +270,16 @@ while running:
             input_box.text = ''
         
         input_box.text = ''
+    
+    if score_val >= 50:
+        win_text = game_over_font.render("You Win!", True, (0, 255, 0))
+        screen.blit(win_text, (190, 250))
+        pygame.display.update()
+        pygame.time.delay(2000) 
+        win_sound = mixer.Sound('win.mp3')  
+        win_sound.play()
+        pygame.quit()
+        running = False
 
     # game over
     for i in range(no_of_invaders):
